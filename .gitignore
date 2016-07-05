@@ -1,0 +1,10 @@
+.*.swp
+.gradle
+.classpath
+.project
+.settings
+.DS_Store
+/bin
+/build
+/local.properties
+map-wlpcfg/servers/gameon-map/firstRoom.withid.json

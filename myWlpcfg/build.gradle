@@ -1,0 +1,16 @@
+apply plugin: 'eclipse'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+task copyApplication(type: Copy) {
+    from '../myApp/build/libs/myApp-1.0.war'
+    into 'servers/defaultServer/apps/'
+    rename("myApp-1.0.war", "myApp.war")
+}
+
+task build(dependsOn: 'copyApplication'){
+}

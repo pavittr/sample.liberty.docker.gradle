@@ -1,0 +1,91 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+sourceCompatibility = 1.8
+
+configurations {
+    jmockit
+    testCompile.extendsFrom jmockit
+    endToEndTestCompile.extendsFrom testCompile
+}
+
+dependencies {
+    providedCompile group:'javax.websocket', name:'javax.websocket-api', version:'1.1'
+    providedCompile group:'javax.ws.rs', name:'javax.ws.rs-api', version:'2.0'
+    providedCompile group:'javax.json', name:'javax.json-api', version:'1.0'
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    providedCompile 'javax.annotation:javax.annotation-api:1.2'
+    providedCompile 'javax.inject:javax.inject:1'
+    providedCompile 'javax.enterprise.concurrent:javax.enterprise.concurrent-api:1.0'
+    providedCompile 'javax.enterprise:cdi-api:1.2'
+
+     //httpclient for making the request (temporary)
+     compile ('org.apache.httpcomponents:httpclient:4.5.2') {
+        exclude group: 'com.fasterxml.jackson'
+     }
+
+    jmockit 'org.jmockit:jmockit:1.22'
+    testCompile 'junit:junit:4.12'
+    testCompile group:'javax.json', name:'javax.json-api', version:'1.0'
+    testCompile group:'javax.ws.rs', name:'javax.ws.rs-api', version:'2.0'
+    testCompile 'org.glassfish:javax.json:1.0.4'
+	testRuntime 'org.apache.cxf:cxf-rt-rs-client:3.1.1'
+	testRuntime 'org.apache.httpcomponents:httpclient:4.5.2'
+}
+
+test {
+   jvmArgs "-javaagent:${configurations.jmockit.singleFile.absolutePath}"
+}
+
+sourceSets {
+  endToEndTest {
+    java.srcDir file('/src/endToEnd/java')
+  }
+}
+
+task endToEndTest(type: Test) {
+  testClassesDir = sourceSets.endToEndTest.output.classesDir
+  classpath = sourceSets.endToEndTest.runtimeClasspath
+}
+
+
+check.dependsOn(endToEndTest)
+
+// Keep test and application binaries separate
+//eclipse.classpath.file {
+//	withXml { xml ->
+//    	def node = xml.asNode()
+//
+//    	Node src = node.find {it.@path == "src/main/java"}
+//  	src.@output ="bin/main"
+//
+//    	Node testSrc = node.find {it.@path == "src/test/java"}
+//  		testSrc.@output ="bin/test"
+//	}
+//}
+
+// Set the Eclipse facets to use 3.1 of the Dynamic Web Module which requires Java 1.7 (at least)
+// And JAX-RS 2.0, and JavaScript
+eclipse.wtp.facet {
+    // Clear default facets to work around bug where you get duplicates including wst 2.4
+    facets = []
+    facet name: 'jst.java', type: 'fixed'
+    facet name: 'jst.web', type: 'fixed'
+    facet name: 'jst.web', version: '3.1'
+    facet name: 'jst.java', version: '1.8'
+    facet name: 'jst.jaxrs', version: '2.0'
+    facet name: 'wst.jsdt.web', type: 'fixed'
+    facet name: 'wst.jsdt.web', version: '1.0'
+}
+
+// Add additional code conventions
+eclipse.jdt.file {
+    withProperties {
+      it['org.eclipse.jdt.core.formatter.indentation.size'] = '4'
+      it['org.eclipse.jdt.core.formatter.tabulation.size'] = '4'
+      it['org.eclipse.jdt.core.formatter.tabulation.char'] = 'space'
+      it['org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_cases'] = 'true'
+      it['org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch'] = 'true'
+      it['org.eclipse.jdt.core.formatter.alignment_for_arguments_in_annotation'] = '18'
+    }
+}
