@@ -12,4 +12,4 @@ You can also deploy this aplication to Bluemix using Bluemix's IBM Container Ser
 
 ## Testing the application is running
 
-Once you have the application running, you will be able to go to [your dashboard](https://new-console.ng.bluemix.net/dashboard/compute#container) and see the application running. The application will be available at `http://<appName>:9080/myApp`.
+Once the deploy has completed you will be able to go to [your dashboard](https://new-console.ng.bluemix.net/dashboard/compute#container) and see the application running. In the `Container details` panel you will see port 9080 is bound to the container, click on the port number to see the Liberty Welcome Page. You can then append `/myApp` to the URL to access your application.
