@@ -21,8 +21,8 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/v1")
 public class ApplicationV1 extends Application {
     /*
-     * The context root for this application is /map
-     * @ApplicationPath will tuck the entirety of the REST endpoint under v1: /map/v1/
+     * The context root for this application is /myApp
+     * @ApplicationPath will tuck the entirety of the REST endpoint under v1: /myApp/v1/
      * Any {@link Path} annotations at the class level are appended onto that, etc.
      */
 }
