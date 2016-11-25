@@ -4,11 +4,9 @@ This is a simple application to show setting up an application that uses JAX-RS 
 
 ## Deploying to Bluemix
 
-You can also deploy this aplication to Bluemix using Bluemix's IBM Container Service.
+You can also deploy this application to Bluemix using Bluemix's IBM Container Service.
 
-**Please note** that before you deploy, you need to have created a Container Namespace in Bluemix. This can only be set once and so should be done manually before you run this sample. To do this login to bluemix at (https://new-console.ng.bluemix.net/#overview) and select `Compute`. During the wizard you will be asked to provide a namespace. This namespace will be used as an area to store your built Docker images inside the ICS registry. Once this has been completed, you can come back here and use the Deploy to Bluemix button.
-
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy)
+[![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/pavittr/sample.liberty.docker.gradle)
 
 ## Testing the application is running
 
