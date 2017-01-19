@@ -34,7 +34,7 @@ stages:
       space: ${PROD_SPACE_NAME}
     IMAGE_NAME: ${CF_APP_NAME}
     USE_CACHED_LAYERS: 'true'
-    script: |
+    COMMAND: |
       #!/bin/bash
       echo "Deploying"
       ls
