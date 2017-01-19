@@ -16,11 +16,11 @@ stages:
       echo "Hello"
 - name: DEPLOY
   inputs:
-  - type: git
-    branch: master
-    service: ${BASE_REPO}
+  - type: job
+    stage: BUILD
+    job: Build
   triggers:
-  - type: commit
+  - type: stage
   jobs:
   - name: Build
     type: builder
