@@ -39,17 +39,21 @@ stages:
       ls -lRa
       echo -e "${label_color}Starting build script${no_color}"
 
-      if [ -f Dockerfile ]; then
+      DOCKERFILE_FOLDER="myWlpcfg"
+
+      if [ -f ${DOCKERFILE_FOLDER}/Dockerfile ]; then
           echo -e "${label_color}Building ${FULL_REPOSITORY_NAME} ${no_color}"
           ${EXT_DIR}/utilities/sendMessage.sh -l info -m "New container build requested for ${FULL_REPOSITORY_NAME}"
           # build image
           BUILD_COMMAND=""
+          CACHED_LAYERS_ARG=""
           if [ "${USE_CACHED_LAYERS}" == "true" ]; then
-              BUILD_COMMAND="build --pull --tag ${FULL_REPOSITORY_NAME} ${WORKSPACE}"
+              CACHED_LAYERS_ARG="--pull"
           else
-              BUILD_COMMAND="build --no-cache --tag ${FULL_REPOSITORY_NAME} ${WORKSPACE}"
+              CACHED_LAYERS_ARG="--no-cache"
           fi
 
+          BUILD_COMMAND="build ${CACHED_LAYERS_ARG} --tag ${FULL_REPOSITORY_NAME} ${WORKSPACE}/${DOCKERFILE_FOLDER}"
           ice_retry ${BUILD_COMMAND}
           RESULT=$?
 
