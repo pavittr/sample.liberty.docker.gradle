@@ -6,7 +6,7 @@ This is a simple application to show setting up an application that uses JAX-RS 
 
 You can also deploy this application to Bluemix using Bluemix's IBM Container Service.
 
-[![Create Toolchain](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/pavittr/sample.liberty.docker.gradle)
+[![Deploy To Bluemix](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/)
 
 ## Testing the application is running
 
