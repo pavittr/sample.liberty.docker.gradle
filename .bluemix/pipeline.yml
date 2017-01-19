@@ -36,10 +36,38 @@ stages:
     USE_CACHED_LAYERS: 'true'
     COMMAND: |-
       #!/bin/bash
-      echo "Deploying"
-      ls
-      echo "DOne with basic list"
-      ls -lra
-      echo "DOne with recursive list"
-      tree
-      echo "Done with tree"
+      ls -lRa
+      echo -e "${label_color}Starting build script${no_color}"
+
+      if [ -f Dockerfile ]; then
+          echo -e "${label_color}Building ${FULL_REPOSITORY_NAME} ${no_color}"
+          ${EXT_DIR}/utilities/sendMessage.sh -l info -m "New container build requested for ${FULL_REPOSITORY_NAME}"
+          # build image
+          BUILD_COMMAND=""
+          if [ "${USE_CACHED_LAYERS}" == "true" ]; then
+              BUILD_COMMAND="build --pull --tag ${FULL_REPOSITORY_NAME} ${WORKSPACE}"
+          else
+              BUILD_COMMAND="build --no-cache --tag ${FULL_REPOSITORY_NAME} ${WORKSPACE}"
+          fi
+
+          ice_retry ${BUILD_COMMAND}
+          RESULT=$?
+
+          if [ $RESULT -ne 0 ]; then
+              echo -e "${red}Error building image ${no_color}" | tee -a "$ERROR_LOG_FILE"
+              echo "Build command: ice ${BUILD_COMMAND}"
+              ice info
+              ice images
+              ${EXT_DIR}/print_help.sh
+              ${EXT_DIR}/utilities/sendMessage.sh -l bad -m "Container build of ${FULL_REPOSITORY_NAME} failed"
+              exit 1
+          else
+              ${EXT_DIR}/utilities/sendMessage.sh -l good -m "Container build of ${FULL_REPOSITORY_NAME} was successful"
+              echo -e "${green}Container build of ${FULL_REPOSITORY_NAME} was successful ${no_color}"
+          fi
+      else
+          echo -e "${red}Dockerfile not found in project${no_color}"
+          exit 1
+      fi
+
+      echo "IMAGE_NAME=${FULL_REPOSITORY_NAME}" >> $ARCHIVE_DIR/build.properties
