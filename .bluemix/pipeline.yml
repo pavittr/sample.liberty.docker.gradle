@@ -14,3 +14,17 @@ stages:
     script: |
       #!/bin/bash
       echo "Hello"
+- name: DEPLOY
+  inputs:
+  - type: git
+    branch: master
+    service: ${BASE_REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build
+    type: builder
+    build_type: shell
+    script: |
+      #!/bin/bash
+      echo "Hello"
