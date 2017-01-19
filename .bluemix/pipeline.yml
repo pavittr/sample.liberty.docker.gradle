@@ -97,6 +97,28 @@ stages:
     COMMAND: |-
       #!/bin/bash
       echo "Deploy launched"
+      echo -e "${label_color}Starting deployment script${no_color}"
+
+      git_retry clone https://github.com/Osthanes/deployscripts.git deployscripts
+
+      /bin/bash deployscripts/deploycontainer.sh
+
+      RESULT=$?
+
+      # source the deploy property file
+      if [ -f "${DEPLOY_PROPERTY_FILE}" ]; then
+        source "$DEPLOY_PROPERTY_FILE"
+        cat "${DEPLOY_PROPERTY_FILE}"
+      fi
+
+      if [ $RESULT -ne 0 ]; then
+          echo -e "${red}Executed failed or had warnings ${no_color}"
+          ${EXT_DIR}/print_help.sh
+          exit $RESULT
+      fi
+
+      echo -e "${green}Execution complete${no_label}"
+      echo "Deploy ended"
 hooks:
 - enabled: true
   label: null
