@@ -13,7 +13,10 @@ stages:
     build_type: shell
     script: |
       #!/bin/bash
-      echo "Hello"
+      echo "Building"
+      export JAVA_HOME=$JAVA8_HOME
+      chmod +x gradlew
+      ./gradlew build
 - name: DEPLOY
   inputs:
   - type: job
@@ -27,4 +30,6 @@ stages:
     build_type: shell
     script: |
       #!/bin/bash
-      echo "Hello"
+      echo "Deploying"
+      ls
+      echo "DOne deploying"
