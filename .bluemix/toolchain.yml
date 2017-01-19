@@ -9,10 +9,10 @@ image: data:image/svg+xml;base64,$file(toolchain.svg,base64)
 icon: data:image/svg+xml;base64,$file(icon.svg,base64)
 required:
  - deploy
- - sample-repo
+ - base-repo
 
 # Github repos
-sample-repo:
+base-repo:
   service_id: githubpublic
   parameters:
     repo_name: "{{name}}"
@@ -29,13 +29,13 @@ sample-build:
     configuration:
      content: $file(pipeline.yml)
      env:
-      BASE_REPO: "sample-repo"
+      BASE_REPO: "base-repo"
       CF_APP_NAME: "{{deploy.parameters.prod-app-name}}"
       PROD_SPACE_NAME: "{{deploy.parameters.prod-space}}"
       PROD_ORG_NAME: "{{deploy.parameters.prod-organization}}"
       PROD_REGION_ID: "{{deploy.parameters.prod-region}}"
      execute: true
-    services: ["sample-repo"]
+    services: ["base-repo"]
   hidden: [form, description]
 
 
@@ -49,4 +49,4 @@ deploy:
     $ref: deploy.json
   service-category: pipeline
   parameters:
-    prod-app-name: "{{sample-repo.parameters.repo_name}}"
+    prod-app-name: "{{base-repo.parameters.repo_name}}"
