@@ -81,6 +81,9 @@ stages:
     stage: DEPLOY
     job: Build Container
     dir_name: null
+  triggers:
+  - type: stage
+  jobs:
   - name: Deploy Container
     type: deployer
     extension_id: ibm.devops.services.pipeline.docker.deploy.ice
