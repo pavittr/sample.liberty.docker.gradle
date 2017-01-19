@@ -75,3 +75,30 @@ stages:
       fi
 
       echo "IMAGE_NAME=${FULL_REPOSITORY_NAME}" >> $ARCHIVE_DIR/build.properties
+- name: ICS Deploy
+  inputs:
+  - type: job
+    stage: DEPLOY
+    job: Build Container
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy Container
+    type: deployer
+    extension_id: ibm.devops.services.pipeline.docker.deploy.ice
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+    PORT: '9080'
+    DEPLOY_TYPE: simple
+    CONTAINER_NAME: ${CF_APP_NAME}
+    COMMAND: |-
+      #!/bin/bash
+      echo "Deploy launched"
+hooks:
+- enabled: true
+  label: null
+  ssl_enabled: false
+  url: https://devops-api.ng.bluemix.net/v1/messaging/webhook/publish
