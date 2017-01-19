@@ -18,7 +18,7 @@ base-git-repo:
   parameters:
     repo_name: "{{name}}"
     repo_url: {{repository}}
-    type: clone
+    type: link
     has_issues: true
 
 # Pipelines
