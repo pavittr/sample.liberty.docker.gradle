@@ -25,9 +25,15 @@ stages:
   triggers:
   - type: stage
   jobs:
-  - name: Build
+  - name: Build Container
     type: builder
-    build_type: shell
+    extension_id: ibm.devops.services.pipeline.container.builder
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+    IMAGE_NAME: ${CF_APP_NAME}
+    USE_CACHED_LAYERS: 'true'
     script: |
       #!/bin/bash
       echo "Deploying"
