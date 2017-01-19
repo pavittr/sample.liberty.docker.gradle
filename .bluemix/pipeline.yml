@@ -75,3 +75,16 @@ stages:
       fi
 
       echo "IMAGE_NAME=${FULL_REPOSITORY_NAME}" >> $ARCHIVE_DIR/build.properties
+  - name: Deploy Container
+    type: deployer
+    extension_id: ibm.devops.services.pipeline.docker.deploy.ice
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+    PORT: '9080'
+    DEPLOY_TYPE: Simple
+    CONTAINER_NAME: ${CF_APP_NAME}
+    COMMAND: |-
+      #!/bin/bash
+      echo "Deploy launched"
