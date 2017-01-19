@@ -16,7 +16,7 @@ stages:
       echo "Building"
       export JAVA_HOME=$JAVA8_HOME
       chmod +x gradlew
-      ./gradlew build
+      ./gradlew build --console=plain
 - name: DEPLOY
   inputs:
   - type: job
@@ -32,4 +32,8 @@ stages:
       #!/bin/bash
       echo "Deploying"
       ls
-      echo "DOne deploying"
+      echo "DOne with basic list"
+      ls -lra
+      echo "DOne with recursive list"
+      tree
+      echo "Done with tree"
